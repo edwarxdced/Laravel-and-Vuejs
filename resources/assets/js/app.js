@@ -1,5 +1,3 @@
-var urlUsers = 'https://jsonplaceholder.typicode.com/users';
-
 new Vue({
 	el: '#crud',
 	created: function() {
@@ -23,11 +21,15 @@ new Vue({
 		loading:false,
 		columns:['Id','Tarea','',''],
 		currentSort:'id',
-  		currentSortDir:'desc'
+  		currentSortDir:'desc',
+  		send:false
 	},
 	computed:{
 		isActive: function(){
 			return this.paginate.current_page;
+		},
+		isSort: function(){
+			return this.currentSort == 'keep' ? 'tarea' : this.currentSort;
 		},
 		pagesNumber: function(){
 			if(!this.paginate.to){
@@ -59,7 +61,7 @@ new Vue({
 		      if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
 		      return 0;
 		    });
-		}
+		},
 	},
 	methods: {
 		getKeeps:function(numberPage=1){
@@ -102,17 +104,20 @@ new Vue({
 		},
 		createKeep: function(){
 			var urlKeep = 'task';
+			this.send = true;
 			axios.post(urlKeep,{
 				keep:this.newKeep
 			}).then((response) => {
 				this.getKeeps();
 				this.newKeep = null;
 				this.errors = [];
+				this.send = false;
 
 				$('#create').modal('hide');
 				toastr.success('Nueva tarea creada con exito.');
 			}).catch((error) => {
 				this.errors = error.response.data;
+				this.send = false;
 			})
 		},
 		changePage: function(numberPage){

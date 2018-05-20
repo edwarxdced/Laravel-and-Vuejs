@@ -31,13 +31,15 @@
 					<thead>
 						<tr>
 							<th v-for="column in columns">
+
+					          <i v-if="column != '' " v-bind:class="[column.toLowerCase() == isSort ?  currentSortDir == 'asc' ? 'fa fa-long-arrow-down' : 'fa fa-long-arrow-up' : 'fa fa-arrows-v text-primary-lighter']"></i>
 					          <a href="#" @click.prevent="sort(column.toLowerCase())" v-text="column"> </a>
 					        </th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="keep in sortedKeeps" v-if="loading == false">
-							<td width="10px" v-text="keep.id"></td>
+							<td width="50px" v-text="keep.id"></td>
 							<td v-text="keep.keep"></td>
 							<td>
 								<a href="#" class="btn btn-warning btn-sm" v-on:click.prevent='editKeep(keep)'>
@@ -60,17 +62,13 @@
 						</tr>
 					</tbody>
 				</table>
-				
-			</div>
-
-			<div class="row">
-				<div class="col-12">
-					<div class="col-4">
-						<span class="text-info">
-							Total de registros <span v-text="keeps.length"></span>
+				<div class="row item-push">
+					<div class="col-md-5 text-left">
+						<span class="text-dark">
+							Total de registros <span v-text="paginate.total"></span>
 						</span>
 					</div>
-					<div class="col-6">
+					<div class="col-md-7 text-right">
 						<nav aria-label="Page navigation keeps">
 							<ul class="pagination">
 								<li v-if="paginate.current_page > 1" class="page-item">
@@ -103,7 +101,7 @@
 	<div class="col-5">
 	<pre class="pre-sh">
 		<code class="php hljs">
-		debug: sort=@{{currentSort}}, dir=@{{currentSortDir}}
+		  sort=@{{currentSort}}, dir=@{{currentSortDir}}
 			@{{ $data }}
 		</code>
 	</pre>

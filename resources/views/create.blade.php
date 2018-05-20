@@ -16,7 +16,7 @@
 					<span class="text-danger" v-for="error in errors" v-text="error"></span>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-primary" value="Guardar">
+					<input type="submit" class="btn btn-primary" value="Guardar" :disabled="send">
 				</div>
 			</div>
 		</div>
